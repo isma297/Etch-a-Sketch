@@ -1,11 +1,15 @@
 const grid=document.querySelector('#grid');
 const button=document.querySelector('#button');
 
-button.addEventListener('click',()=>{getNumberOfSquares()});
+button.addEventListener('click',()=>{ getNumberOfSquares()  });
 
 function getNumberOfSquares(){
+  while (grid.firstChild) {
+    grid.removeChild(grid.firstChild);
+  };
   let squares=prompt('how many squares?',)
   if (squares>100){getNumberOfSquares()};
+  
   drawGrid(squares);
 };
 
@@ -22,28 +26,25 @@ function drawGrid(squares){
   divs.forEach((square)=>{square.addEventListener('mouseover',
   ()=>{changeColor(square)})});
 };
+
 function paintItBlack(square){
   // This function only works when the grid backgroundColor set to black
   // because it decreases the opacity each time the mouse is over the square. 
   // Otherwhise the idea would be the same but reducing each rgb value by 10%
   // untill it is completely black (I did not test it tho)
-
-  console.log(square.classList)
-    let colorRgba=square.style.backgroundColor.toString();
-    let colorRgb=colorRgba.substring(0,(colorRgba.length-1));
-    let colorArr=[];
-    colorArr=colorRgb.split(',',);
-    colorArr[3]=(colorArr[3]-(0.1)+')');
-    // colorArr.push(')');
-    console.log(colorArr.join());
-    square.style.backgroundColor=colorArr;
+  let colorRgba=square.style.backgroundColor.toString();
+  let colorRgb=colorRgba.substring(0,(colorRgba.length-1));
+  let colorArr=[];
+  colorArr=colorRgb.split(',',);
+  colorArr[3]=(colorArr[3]-(0.1)+')');
+  square.style.backgroundColor=colorArr;
 }
+
 function changeColor(square){
   if (square.matches('.paintedBefore')){
     paintItBlack(square)
   }
-  else
-  {const r = Math.floor(Math.random()*256);
+  else {const r = Math.floor(Math.random()*256);
   const g=Math.floor(Math.random()*256);
   const b=Math.floor(Math.random()*256);
   square.style.backgroundColor= `rgba(${r},${g},${b},0.99)`;
